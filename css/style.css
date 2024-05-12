@@ -32,6 +32,16 @@ body {
 
 }
 
+.bg-body-orange {
+  background-color: #FF7F11;
+  border-bottom: 1px solid #c2610d;
+}
+
+.active {
+  background-color: #c2610d;
+  color: #ffffff !important;
+}
+
  
   .black {
     color: #000000; 
