@@ -2,6 +2,7 @@ from pathlib import Path
 from glob import glob
 import os
 import re
+from bs4 import BeautifulSoup
 
 def get_file_content(filename: str):
   f = open(filename,'r')
@@ -38,6 +39,22 @@ def get_placeholders(template: str):
   ph = re.findall("\{[A-Za-z0-9\_]+\}", template)
   return ph
 
+def process_navbar(navbar: str, page: str):
+  soup = BeautifulSoup(navbar, 'html.parser')
+  element = soup.find("a", attrs={"href": "/"+page})
+
+  if element:
+    element["class"] = element.get('class', []) + ['active']
+    #if page.count("/") == 1:
+    #  parent = element.find_parent('li')
+    #  parent["class"] = parent.get('class', []) + ['active']
+    #else:
+    #  element["class"] = element.get('class', []) + ['active']
+    
+    return soup.prettify()
+  
+  return navbar
+
 def process_file(template: str, filename: str, placeholders=[]):
   if not filename.startswith('src/'):
     return  
@@ -55,6 +72,9 @@ def process_file(template: str, filename: str, placeholders=[]):
     else:
       ph = str(itm).removeprefix('{').removesuffix('}').lower()
       part = load_part(ph)
+      if itm == '{NAVBAR}':
+        part = process_navbar(part, target_file)
+
       html = html.replace(itm, part)
   
   # scrivere il contenuto finale nel target file
