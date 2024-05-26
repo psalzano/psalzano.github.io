@@ -11,7 +11,7 @@ Launch this just one
 
 # Activate on windows
 
-```.\.venv\Scripts\activate```
+```.\.venv\bin\activate```
 
 # Install requirements
 

@@ -1,5 +1,7 @@
+from genericpath import isdir
 from pathlib import Path
 from glob import glob
+import shutil
 import os
 import re
 from bs4 import BeautifulSoup
@@ -23,13 +25,12 @@ def put_file_content(filename: str, output: str):
   f.write(output)
   f.close()
 
-
 def load_template():
-  template = get_file_content('src/template.html')
+  template = get_file_content('src' + os.path.sep +'template.html')
   return template
 
 def load_part(part_name: str):
-  filename = 'src/parts/' + part_name.lower() + '.html'
+  filename =  "src" + os.path.sep + "parts" + os.path.sep + part_name.lower() + '.html'
   if os.path.exists(filename):
     template = get_file_content(filename)
     return template
@@ -56,9 +57,11 @@ def process_navbar(navbar: str, page: str):
   return navbar
 
 def process_file(template: str, filename: str, placeholders=[]):
+  print (f"> {filename}")
   if not filename.startswith('src'+os.path.sep):
+    print(f">> Skipping {filename}")
     return  
-  target_file = filename[4:]
+  target_file = "dist" + os.path.sep + filename[4:]
   
   html = template
   # leggere il contenuto del file "filename"
@@ -85,7 +88,7 @@ def build():
   placeholders = get_placeholders(template)
   #print(repr(placeholders))
 
-  for filename in glob('src/**/*.html', recursive=True):
+  for filename in glob('src' + os.path.sep+ '**' + os.path.sep+ '*.html', recursive=True):
     
     print(f"{filename}")
     base_name = os.path.basename(filename)
@@ -93,7 +96,15 @@ def build():
     if filename.startswith('src'+os.path.sep+'parts'): continue
     print("Processing ", filename)
     process_file(template, filename, placeholders)
-  pass
+    
+    assets = ['css','imgs','scripts','fonts']
+    for asset in assets:
+      if os.path.isdir(asset):
+        target_asset = "dist"+os.path.sep+asset
+        if os.path.isdir(target_asset):
+          shutil.rmtree(target_asset)
+          
+        shutil.copytree(asset, target_asset)
 
 if __name__ == "__main__":
   build()  

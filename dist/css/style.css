@@ -1,0 +1,62 @@
+body {
+    font-family: 'Outfit';
+    font-size: 20px;
+    background-color: #FFFFFC;
+    color: #000000;
+    margin: 0px;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;    
+    color:darkgray;
+    text-align: center;
+    height: 40px;
+    border-top: 1px dashed #ff2200;
+  }
+
+.tabellafooter{
+    width:100%;
+    border:1px;
+}
+
+.logo h1 {
+    font-weight: bold;
+    font-size: 20px;
+    height: 30px;
+    padding-top: 6px;
+    padding-left: 6px;
+    color: #FF1B1C
+
+}
+
+.bg-body-orange {
+  background-color: #FF7F11;
+  border-bottom: 1px solid #c2610d;
+}
+
+.active {
+  background-color: #c2610d;
+  color: #ffffff !important;
+}
+
+ 
+  .black {
+    color: #000000; 
+  }
+  .baby_powder {
+    color: #FFFFFC;
+  }
+  .khaki {
+    color: #BEB7A4;
+  }
+
+  .orange {
+    color: #FF7F11;
+  }
+
+  .red {
+    color: #FF1B1C
+  }
