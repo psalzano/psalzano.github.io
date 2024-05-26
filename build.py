@@ -30,7 +30,8 @@ def load_template():
   return template
 
 def load_part(part_name: str):
-  filename =  "src" + os.path.sep + "parts" + os.path.sep + part_name.lower() + '.html'
+  
+  filename =  str.join(os.path.sep,["src", "parts", part_name.lower() + '.html'])
   if os.path.exists(filename):
     template = get_file_content(filename)
     return template
@@ -42,6 +43,9 @@ def get_placeholders(template: str):
 
 def process_navbar(navbar: str, page: str):
   soup = BeautifulSoup(navbar, 'html.parser')
+
+  page = str.replace(page, os.path.sep,'/')
+
   element = soup.find("a", attrs={"href": "/"+page})
 
   if element:
@@ -61,7 +65,7 @@ def process_file(template: str, filename: str, placeholders=[]):
   if not filename.startswith('src'+os.path.sep):
     print(f">> Skipping {filename}")
     return  
-  target_file = "dist" + os.path.sep + filename[4:]
+  target_file = filename[4:]
   
   html = template
   # leggere il contenuto del file "filename"
@@ -81,6 +85,7 @@ def process_file(template: str, filename: str, placeholders=[]):
       html = html.replace(itm, part)
   
   # scrivere il contenuto finale nel target file
+  target_file = "dist" + os.path.sep + target_file
   put_file_content(target_file, html)
 
 def build():
@@ -88,7 +93,9 @@ def build():
   placeholders = get_placeholders(template)
   #print(repr(placeholders))
 
-  for filename in glob('src' + os.path.sep+ '**' + os.path.sep+ '*.html', recursive=True):
+  search_pattern = str.join(os.path.sep,['src','**','*.html'])
+  # 'src' + os.path.sep+ '**' + os.path.sep+ '*.html'
+  for filename in glob(search_pattern, recursive=True):
     
     print(f"{filename}")
     base_name = os.path.basename(filename)
@@ -100,10 +107,10 @@ def build():
     assets = ['css','imgs','scripts','fonts']
     for asset in assets:
       if os.path.isdir(asset):
-        target_asset = "dist"+os.path.sep+asset
+        target_asset = str.join(os.path.sep,["dist",asset])
         if os.path.isdir(target_asset):
           shutil.rmtree(target_asset)
-          
+
         shutil.copytree(asset, target_asset)
 
 if __name__ == "__main__":
