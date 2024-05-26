@@ -56,7 +56,7 @@ def process_navbar(navbar: str, page: str):
   return navbar
 
 def process_file(template: str, filename: str, placeholders=[]):
-  if not filename.startswith('src/'):
+  if not filename.startswith('src'+os.path.sep):
     return  
   target_file = filename[4:]
   
@@ -86,9 +86,11 @@ def build():
   #print(repr(placeholders))
 
   for filename in glob('src/**/*.html', recursive=True):
+    
+    print(f"{filename}")
     base_name = os.path.basename(filename)
     if base_name == 'template.html': continue
-    if filename.startswith('src/parts'): continue
+    if filename.startswith('src'+os.path.sep+'parts'): continue
     print("Processing ", filename)
     process_file(template, filename, placeholders)
   pass
