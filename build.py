@@ -38,7 +38,7 @@ def load_part(part_name: str):
   return ''
 
 def get_placeholders(template: str):
-  ph = re.findall("\{[A-Za-z0-9\_]+\}", template)
+  ph = re.findall("{[A-Za-z0-9_]+}", template)
   return ph
 
 def process_navbar(navbar: str, page: str):
@@ -60,6 +60,32 @@ def process_navbar(navbar: str, page: str):
   
   return navbar
 
+def generate_breadcrumb(filename: str) -> str:
+  breadcrumbs = []
+  parts = filename.split(os.path.sep)
+  
+  for part in parts:
+    link = None
+    part = part.removesuffix(".html").replace("-", " ")
+    if part=='src':
+        link = '<a href="/">Home</a>'
+    else:
+        if part == "index":
+          pass
+        elif part == parts[len(parts)-1]:
+          link = part.capitalize()
+        else:
+          link = part.capitalize()
+          #url = "#"
+          #link = f"<a href=\"{url}\">{part.capitalize()}</a>"
+    
+    if not link is None:
+      breadcrumbs.append(link)
+
+  breadcrumb = str.join(" > ", breadcrumbs)
+  return breadcrumb
+  
+
 def process_file(template: str, filename: str, placeholders=[]):
   print (f"> {filename}")
   if not filename.startswith('src'+os.path.sep):
@@ -76,6 +102,9 @@ def process_file(template: str, filename: str, placeholders=[]):
   for itm in placeholders:
     if itm == '{CONTENT}':
       html = html.replace(itm, content)
+    if itm == '{BREADCRUMBS}':
+      breadcrumb = generate_breadcrumb(filename)
+      html = html.replace(itm, breadcrumb)
     else:
       ph = str(itm).removeprefix('{').removesuffix('}').lower()
       part = load_part(ph)
