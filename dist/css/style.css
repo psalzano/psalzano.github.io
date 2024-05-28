@@ -7,14 +7,8 @@ body {
 }
 
 .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;    
-    color:darkgray;
-    text-align: center;
-    height: 40px;
-    border-top: 1px dashed #ff2200;
+    color:white !important;
+    
   }
 
 .tabellafooter{
@@ -59,4 +53,43 @@ body {
 
   .red {
     color: #FF1B1C
+  }
+
+  .white {
+    color: #ffffff
+  }
+
+  .ping-pong-table-ext {
+    height: 100px;
+    position: relative;
+    bottom: 0px;
+    width: 100%;
+    z-index: -100;
+  }
+
+  .ping-pong-table {
+    background-color: #022b6f;
+    margin: auto;
+    width: 98%;    
+    z-index: -100;
+  }
+
+  .white-stripe {
+    width: 4px;
+    background-color: #ffffff;
+    left: 50%;
+    right: 50%;
+    height: 100%;
+    position: relative;
+}
+
+  .ping-pong-net {
+    background-color: #e5e5f7;
+    opacity: 0.8;
+    background-size: 10px 10px;
+    background-image: repeating-linear-gradient(45deg, #08081d 0, #1b1b1b 1px, #e5e5f7 0, #e5e5f7 50%);
+    height: 30px;
+    width: 100%;
+    border-top: 4px solid #2f2f2f;
+    border-bottom: 1px solid #2f2f2f;
   }
